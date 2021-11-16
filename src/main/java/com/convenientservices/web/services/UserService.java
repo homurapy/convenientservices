@@ -1,6 +1,9 @@
 package com.convenientservices.web.services;
 
+import com.convenientservices.web.dto.UserDTO;
 import com.convenientservices.web.entities.User;
+
+import java.security.Principal;
 
 public interface UserService {
     User getUserByUsername(String name);
@@ -9,5 +12,7 @@ public interface UserService {
 
     boolean activateUser(String activateCode);
 
-    String getFIO(String name);
+    String getFIO(Principal principal);
+
+    UserDTO getUserDTOByUserName(Principal principal);
 }

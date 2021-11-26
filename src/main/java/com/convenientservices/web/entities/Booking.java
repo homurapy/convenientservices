@@ -3,7 +3,7 @@ package com.convenientservices.web.entities;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Entity
@@ -21,15 +21,18 @@ public class Booking {
     private Long id;
 
     @Column(name = "dt")
-    private Timestamp dt;
+    private LocalDateTime dt;
 
     @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne
+    @JoinColumn(name = "master_id", nullable = false)
     private User master;
 
     @ManyToOne
+    @JoinColumn(name = "point_of_services_id", nullable = false)
     private PointOfServices pointOfServices;
 
     @ManyToMany

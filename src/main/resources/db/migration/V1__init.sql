@@ -7,8 +7,10 @@ CREATE TABLE "users" (
                          "is_archived" BOOLEAN DEFAULT FALSE,
                          "is_activated" BOOLEAN DEFAULT FALSE,
                          "activation_code" VARCHAR(255),
+                         "change_code" VARCHAR(255),
                          "email" VARCHAR(255) UNIQUE,
-                         "phone" VARCHAR(255) UNIQUE
+                         "phone" VARCHAR(255) UNIQUE,
+                         "registration_datetime" TIMESTAMP
 );
 
 CREATE TABLE "roles" (
@@ -43,7 +45,7 @@ CREATE TABLE "address" (
 );
 
 CREATE TABLE "city" (
-                          "id" int PRIMARY KEY,
+                          "id" SERIAL PRIMARY KEY,
                           "name" VARCHAR(30),
                           "state" VARCHAR(30),
                           "country" VARCHAR(2)
@@ -65,7 +67,7 @@ CREATE TABLE "service" (
                            "id" SERIAL PRIMARY KEY,
                            "service_category_id" int,
                            "name" VARCHAR(255),
-                           "duration" interval
+                           "duration" BIGINT
 );
 
 CREATE TABLE "service_properties" (
@@ -96,8 +98,9 @@ CREATE TABLE "booking" (
                            "user_id" int,
                            "master_id" int,
                            "point_of_services_id" int,
-                           "dt" timestamp,
-                           "service_id" int
+                           "dt" timestamp
+--                        ,
+--                            "service_id" int
 );
 
 ALTER TABLE "users_roles" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
@@ -128,7 +131,7 @@ ALTER TABLE "booking" ADD FOREIGN KEY ("master_id") REFERENCES "users" ("id");
 
 ALTER TABLE "booking" ADD FOREIGN KEY ("point_of_services_id") REFERENCES "point_of_services" ("id");
 
-ALTER TABLE "booking" ADD FOREIGN KEY ("service_id") REFERENCES "service" ("id");
+-- ALTER TABLE "booking" ADD FOREIGN KEY ("service_id") REFERENCES "service" ("id");
 
 ALTER TABLE "service_properties" ADD FOREIGN KEY ("service_id") REFERENCES "service" ("id");
 

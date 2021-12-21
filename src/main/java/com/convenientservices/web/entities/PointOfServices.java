@@ -3,6 +3,7 @@ package com.convenientservices.web.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -24,6 +25,9 @@ public class PointOfServices {
     @ManyToOne
     @JoinColumn(name="boss_user_id")
     private User boss;
+
+    @ManyToMany(mappedBy = "masterPos")
+    List<User> users;
 
     @ManyToOne
     private Address address;
@@ -49,5 +53,16 @@ public class PointOfServices {
         int result = id.hashCode();
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return '{' +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", boss=" + boss +
+                ", address=" + address +
+                ", category=" + category +
+                '}';
     }
 }

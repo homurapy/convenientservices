@@ -159,7 +159,7 @@
                         </a>
                     </li>
                     <li th:if="${userDTO.getRole().equalsIgnoreCase('ROLE_USER')}">
-                        <a href="#" class="nav-link link-dark">
+                        <a href="/business" class="nav-link link-dark">
                             <svg class="bi me-2" width="16" height="16">
                                 <use xlink:href="#business"></use>
                             </svg>
@@ -167,7 +167,6 @@
                         </a>
                     </li>
                 </ul>
-                <hr>
             </div>
             <div class="p-4 bg-light" style="width: 820px;">
                 <h3>Ваши персональные данные: </h3>
@@ -200,7 +199,7 @@
                         <td colspan="2">[[${userDTO.email}]]</td>
                     </tr>
                     <tr>
-                        <th scope="row">Phone: </th>
+                        <th scope="row">Телефон: </th>
                         <td colspan="2">[[${userDTO.phone}]]</td>
                     </tr>
                     <tr style="display:none;">
@@ -210,7 +209,7 @@
                     </tbody>
                 </table>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <button class="btn btn-primary" type="button">Редактировать</button>
+                    <a href="/account/edit" class="btn btn-primary" type="button">Редактировать</a>
                 </div>
 
             </div>

@@ -3,6 +3,8 @@ package com.convenientservices.web.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
 
@@ -38,11 +40,17 @@ public class User {
     @Column(name = "activation_code")
     private String activationCode;
 
+    @Column(name = "change_code")
+    private String changeCode;
+
     @Column(name = "phone")
     private String phone;
 
     @Column(name = "email")
     private String email;
+
+    @Column(name = "registration_datetime")
+    private Timestamp registrationDateTime;
 
     @ManyToMany
     @JoinTable(name = "users_roles",
@@ -61,4 +69,20 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "service_id"))
     private List<Service> masterServices;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "master_pos",
+            joinColumns = @JoinColumn(name = "master_user_id"),
+            inverseJoinColumns = @JoinColumn(name = "point_of_services_id"))
+    private List<PointOfServices> masterPos;
+
+    @Override
+    public String toString() {
+        return '{' +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+    }
 }

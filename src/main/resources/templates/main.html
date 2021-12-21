@@ -4,6 +4,18 @@
 <head>
     <title>Выбор организации - Convenient Services</title>
     <div th:insert="~{fragments/menu :: #head}"></div>
+    <script async th:inline="javascript">
+        function submitForm(){
+            let url = '/main?city=';
+            url += [[${select}]];
+            url += '&category=';
+            url += [[${selectcategory}]];
+            url += '&pos=';
+            url += document.getElementById("searchPos").value;
+            window.location.href = url;
+        }
+    </script>
+
 </head>
 
 <body class="bg-light">
@@ -40,18 +52,21 @@
         Ваш аккаунт не активирован! Ссылка активации отправлена на Ваш электронный адрес. Аккаунт будет заблокирован
         через 48 часов!
     </div>
+    <div th:if="${active} == 'ACTIVATED'" class="alert alert-success m-2" role="alert">
+        Поздравляем! Ваш аккаунт активирован!
+    </div>
     <div class="main">
         <div>
             <ul class="navbar-nav">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="selectcity" name="selectcity" th:text = "${select}"href="#"></a>
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="selectcity" name="city" th:text = "${select}"href="#"></a>
                     <div class="dropdown-menu pt-0 mx-0 rounded-3 shadow overflow-hidden" style="width: 280px;">
                         <form method="get" th:action = "@{/main}" class="p-2 mb-2 bg-light border-bottom">
                             <input type="search" class="form-control" autocomplete="false" name="city"
                                    placeholder="Type to filter...">
                         </form>
                         <ul th:each="city : ${cities}" class="list-unstyled mb-0">
-                            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" th:href="@{/main(city = ${city.name})}">
+                            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" th:href="@{/main(city = ${city.name}, category = ${selectcategory})}">
                                 <span class="d-inline-block bg-success rounded-circle"
                                       style="width: .5em; height: .5em;"></span>
                                 [[${city.name}]]
@@ -65,14 +80,14 @@
         <div>
             <ul class="navbar-nav">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Выберите категорию</a>
+                    <a class="nav-link dropdown-toggle"  data-toggle="dropdown" id="selecеtcategory" name="category" th:text = "${selectcategory}"href="#"></a>
                     <div class="dropdown-menu pt-0 mx-0 rounded-3 shadow overflow-hidden" style="width: 280px;">
-                        <form class="p-2 mb-2 bg-light border-bottom">
-                            <input type="search" class="form-control" autocomplete="false"
+                        <form class="p-2 mb-2 bg-light border-bottom" th:action = "@{/main}" method="get">
+                            <input type="search" class="form-control" autocomplete="false" name="category"
                                    placeholder="Type to filter...">
                         </form>
                         <ul th:each="category : ${categories}" class="list-unstyled mb-0">
-                            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#">
+                            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" th:href="@{/main(category = ${category.name}, city = ${select})}">
                                 <span class="d-inline-block bg-success rounded-circle"
                                       style="width: .5em; height: .5em;"></span>
                                 [[${category.name}]]
@@ -83,17 +98,15 @@
             </ul>
         </div>
 
-        <div>
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-secondary" type="submit">Search</button>
-            </form>
+        <div id="searchPosForm" style="display: flex">
+            <input id="searchPos" name="pos" class="form-control me-2" type="text" placeholder="Search" aria-label="Search" style="float:left">
+            <button class="btn btn-secondary" onclick = "submitForm()">Search</button>
         </div>
 
         <div th:unless="${favourites.isEmpty()}" class="my-3 p-3 bg-body rounded shadow-sm">
             <h6 class="border-bottom pb-2 mb-0">Любимые компании</h6>
             <div th:each="favourite : ${favourites}">
-                <a href="#">
+                <a th:href="@{/booking (posId = ${favourite.getId()})}">
                     <div class="d-flex text-muted pt-3">
 
                         <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="50" height="50"
@@ -116,7 +129,7 @@
             <h6 class="border-bottom pb-2 mb-0">Все компании</h6>
 
             <div th:each="company : ${companies}" class="d-flex text-muted pt-3">
-                <a href="#777">
+                <a th:href="@{/booking (posId = ${company.getId()})}">
                     <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="50" height="50"
                          xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
                          preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>

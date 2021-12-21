@@ -4,11 +4,10 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.List;
 
 @Entity
-@Getter
-@Setter
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -39,7 +38,7 @@ public class Booking {
     @JoinTable(name = "service_properties",
             joinColumns = @JoinColumn(name = "booking_id"),
             inverseJoinColumns = @JoinColumn(name = "service_id"))
-    Collection<Service> services;
+    List<Service> services;
 
     @Override
     public boolean equals(Object o) {

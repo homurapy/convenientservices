@@ -3,7 +3,8 @@ package com.convenientservices.web.entities;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Time;
+import java.time.Duration;
+import java.util.List;
 
 @Entity
 @Getter
@@ -23,11 +24,14 @@ public class Service {
     private String name;
 
     @Column(name = "duration")
-    private Time duration;
+    private Long duration;
 
     @ManyToOne
     @JoinColumn(name = "service_category_id")
     private ServiceCategory category;
+
+    @ManyToMany(mappedBy = "services")
+    List<Booking> bookings;
 
     @Override
     public boolean equals(Object o) {

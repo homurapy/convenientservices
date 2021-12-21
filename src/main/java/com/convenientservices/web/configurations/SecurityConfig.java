@@ -26,10 +26,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/main/**").authenticated()
+                .antMatchers("/booking/**").authenticated()
                 .antMatchers("/master/**").hasRole("MASTER")
                 .antMatchers("/account/**").authenticated()
                 .antMatchers("/orders/**").authenticated()
                 .antMatchers("/favourite/**").authenticated()
+                .antMatchers("/business/**").authenticated()
                 .antMatchers("/admins/**").hasRole("ADMIN")
                 .and()
                 .formLogin()
